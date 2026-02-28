@@ -23,13 +23,32 @@
 		&::-webkit-scrollbar {
 			display: none;
 		}
+
+		> * {
+			min-width: var(--fos-min-width, 0);
+		}
+	}
+
+	// Default: arrows overlay centered L/R on top of content
+	&__arrows {
+		display: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		pointer-events: none;
+	}
+
+	&.has-overflow &__arrows {
+		display: block;
 	}
 
 	&__arrow {
-		display: none;
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
+		pointer-events: auto;
 		z-index: 1;
 		width: var(--fos-arrow-size);
 		height: var(--fos-arrow-size);
@@ -77,10 +96,6 @@
 				-webkit-mask-image: var(--fos-arrow-right);
 			}
 		}
-	}
-
-	&.has-overflow &__arrow {
-		display: block;
 	}
 
 	&.is-at-start &__arrow--left {

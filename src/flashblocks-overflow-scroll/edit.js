@@ -8,11 +8,11 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const blockProps = useBlockProps( {
 		className: 'wp-block-flashblocks-overflow-scroll',
+		style: minWidth ? { '--fos-min-width': minWidth } : {},
 	} );
 
-	const innerStyle = minWidth ? { minWidth } : {};
 	const innerBlocksProps = useInnerBlocksProps(
-		{ className: 'wp-block-flashblocks-overflow-scroll__inner', style: innerStyle },
+		{ className: 'wp-block-flashblocks-overflow-scroll__content' },
 	);
 
 	return (
@@ -28,9 +28,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				</PanelBody>
 			</InspectorControls>
 			<div { ...blockProps }>
-				<div className="wp-block-flashblocks-overflow-scroll__content">
-					<div { ...innerBlocksProps } />
-				</div>
+				<div { ...innerBlocksProps } />
 			</div>
 		</>
 	);
