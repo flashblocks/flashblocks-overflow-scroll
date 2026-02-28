@@ -1,0 +1,100 @@
+// Default arrow SVGs as custom properties (override these in your theme)
+// chevron-left
+// chevron-right
+:root {
+	--fos-arrow-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 18l-6-6 6-6'/%3E%3C/svg%3E");
+	--fos-arrow-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18l6-6-6 6'/%3E%3C/svg%3E");
+	--fos-arrow-size: 32px;
+	--fos-arrow-color: currentColor;
+	--fos-arrow-bg: rgba(255, 255, 255, 0.9);
+	--fos-arrow-bg-hover: rgba(255, 255, 255, 1);
+	--fos-arrow-offset: 8px;
+	--fos-arrow-border-radius: 50%;
+	--fos-arrow-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.wp-block-flashblocks-overflow-scroll {
+	position: relative;
+	display: grid; // Grid constrains __content to the block's width regardless of min-width
+
+	&__content {
+		overflow-x: auto;
+		overflow-y: hidden;
+		-webkit-overflow-scrolling: touch;
+		min-width: 0; // Allow grid child to shrink below content size — __inner carries the actual min-width
+
+		// Hide scrollbar by default, keep it functional
+		scrollbar-width: none; // Firefox
+		&::-webkit-scrollbar {
+			display: none; // Chrome, Safari
+		}
+	}
+
+	&__arrow {
+		display: none; // hidden until JS adds .has-overflow
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 1;
+		width: var(--fos-arrow-size);
+		height: var(--fos-arrow-size);
+		padding: 0;
+		border: none;
+		border-radius: var(--fos-arrow-border-radius);
+		background: var(--fos-arrow-bg);
+		box-shadow: var(--fos-arrow-shadow);
+		color: var(--fos-arrow-color);
+		cursor: pointer;
+		appearance: none;
+
+		&:hover {
+			background: var(--fos-arrow-bg-hover);
+		}
+
+		&::before {
+			content: "";
+			display: block;
+			width: 100%;
+			height: 100%;
+			mask-size: 60%;
+			mask-repeat: no-repeat;
+			mask-position: center;
+			-webkit-mask-size: 60%;
+			-webkit-mask-repeat: no-repeat;
+			-webkit-mask-position: center;
+			background-color: var(--fos-arrow-color);
+		}
+
+		&--left {
+			left: var(--fos-arrow-offset);
+
+			&::before {
+				mask-image: var(--fos-arrow-left);
+				-webkit-mask-image: var(--fos-arrow-left);
+			}
+		}
+
+		&--right {
+			right: var(--fos-arrow-offset);
+
+			&::before {
+				mask-image: var(--fos-arrow-right);
+				-webkit-mask-image: var(--fos-arrow-right);
+			}
+		}
+	}
+
+	// Show arrows only when overflow is detected
+	&.has-overflow &__arrow {
+		display: block;
+	}
+
+	// Hide individual arrows at scroll boundaries
+	&.is-at-start &__arrow--left {
+		display: none;
+	}
+
+	&.is-at-end &__arrow--right {
+		display: none;
+	}
+}
