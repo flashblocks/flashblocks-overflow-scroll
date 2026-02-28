@@ -21,7 +21,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				<PanelBody title={ __( 'Scroll Settings', 'flashblocks' ) }>
 					<TextControl
 						label={ __( 'Content Min Width', 'flashblocks' ) }
-						help={ __( 'e.g. 800px, 60rem. Forces content wider than the container to enable scrolling.', 'flashblocks' ) }
+						help={ __( 'Set a minimum width (e.g. 800px) to prevent content from shrinking on small screens. When the min width exceeds the screen size, the block becomes scrollable and arrows appear.', 'flashblocks' ) }
 						value={ minWidth }
 						onChange={ ( value ) => setAttributes( { minWidth: value } ) }
 					/>

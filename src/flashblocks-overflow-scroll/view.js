@@ -1,41 +1,27 @@
-document.querySelectorAll(".wp-block-flashblocks-overflow-scroll").forEach(
-	(block) => {
-		const content = block.querySelector(
-			".wp-block-flashblocks-overflow-scroll__content",
-		);
-		const leftArrow = block.querySelector(
-			".wp-block-flashblocks-overflow-scroll__arrow--left",
-		);
-		const rightArrow = block.querySelector(
-			".wp-block-flashblocks-overflow-scroll__arrow--right",
-		);
+document.querySelectorAll(".wp-block-flashblocks-overflow-scroll").forEach((block) => {
+	const content = block.querySelector(".wp-block-flashblocks-overflow-scroll__content");
+	if (!content) return;
 
-		if (!content) return;
+	const left = block.querySelector(".wp-block-flashblocks-overflow-scroll__arrow--left");
+	const right = block.querySelector(".wp-block-flashblocks-overflow-scroll__arrow--right");
 
-		function updateState() {
-			const hasOverflow = content.scrollWidth > content.clientWidth + 1;
-			const scrollLeft = Math.round(content.scrollLeft);
-			const maxScroll = content.scrollWidth - content.clientWidth;
+	function update() {
+		const overflow = content.scrollWidth > content.clientWidth + 1;
+		const pos = Math.round(content.scrollLeft);
+		const max = content.scrollWidth - content.clientWidth;
 
-			block.classList.toggle("has-overflow", hasOverflow);
-			block.classList.toggle("is-at-start", scrollLeft <= 0);
-			block.classList.toggle("is-at-end", scrollLeft >= maxScroll - 1);
-		}
+		block.classList.toggle("has-overflow", overflow);
+		block.classList.toggle("is-at-start", pos <= 0);
+		block.classList.toggle("is-at-end", pos >= max - 1);
+	}
 
-		function scrollBy(direction) {
-			const amount = content.clientWidth * 0.75;
-			content.scrollBy({ left: direction * amount, behavior: "smooth" });
-		}
+	function scroll(dir) {
+		content.scrollBy({ left: dir * content.clientWidth * 0.75, behavior: "smooth" });
+	}
 
-		if (leftArrow) {
-			leftArrow.addEventListener("click", () => scrollBy(-1));
-		}
-		if (rightArrow) {
-			rightArrow.addEventListener("click", () => scrollBy(1));
-		}
-
-		content.addEventListener("scroll", updateState, { passive: true });
-		window.addEventListener("resize", updateState);
-		updateState();
-	},
-);
+	if (left) left.addEventListener("click", () => scroll(-1));
+	if (right) right.addEventListener("click", () => scroll(1));
+	content.addEventListener("scroll", update, { passive: true });
+	window.addEventListener("resize", update);
+	update();
+});
