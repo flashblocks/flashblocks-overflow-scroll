@@ -98,11 +98,9 @@
 		}
 	}
 
-	&.is-at-start &__arrow--left {
-		display: none;
-	}
-
+	&.is-at-start &__arrow--left,
 	&.is-at-end &__arrow--right {
-		display: none;
+		opacity: 0.25;
+		pointer-events: none;
 	}
 }
