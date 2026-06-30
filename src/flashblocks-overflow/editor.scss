@@ -1,0 +1,12 @@
+/**
+ * Editor-only styles. view.js does not run in the editor, so no edge fade here;
+ * just make an empty container easy to see and select.
+ */
+.wp-block-flashblocks-overflow {
+	&:empty {
+		min-height: 4rem;
+		outline: 1px dashed var(--wp-admin-theme-color, #3858e9);
+		outline-offset: -1px;
+		border-radius: 2px;
+	}
+}

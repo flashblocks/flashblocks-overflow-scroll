@@ -1,0 +1,85 @@
+/**
+ * Shared styles (editor + front). The scroll behavior is intrinsic to the
+ * block, so it ships here rather than relying on the theme.
+ */
+.wp-block-flashblocks-overflow {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: flex-start;
+
+	// User-controllable via the block's "Block spacing" control.
+	gap: var(--wp--style--block-gap, var(--wp--preset--spacing--30, 1rem));
+
+	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch; // momentum scrolling on iOS
+	overscroll-behavior-x: contain; // don't chain the swipe to the page
+	scroll-snap-type: x proximity; // gentle settle, not a hard grab
+
+	// Hide the scrollbar — the swipe and edge fade carry the affordance.
+	scrollbar-width: none; // Firefox
+	-ms-overflow-style: none; // legacy Edge
+	&::-webkit-scrollbar { // WebKit
+		display: none;
+	}
+
+	// Children keep their natural size and never shrink, so the row overflows
+	// (and scrolls) instead of squishing each item onto multiple lines.
+	> * {
+		flex: 0 0 auto;
+		scroll-snap-align: start;
+	}
+
+	// Center the row when it fits, but stay fully scrollable — both ends
+	// reachable — when it overflows. Auto margins absorb free space and collapse
+	// to 0 on overflow, so the first item sits at scrollLeft 0. This is browser-
+	// agnostic, unlike `justify-content: center`/`safe center`, which leaves the
+	// start unreachable on the scroll axis in Safari/iOS.
+	> :first-child {
+		margin-inline-start: auto;
+	}
+	> :last-child {
+		margin-inline-end: auto;
+	}
+
+	// Some child blocks force `width: 100%` on themselves (e.g. the FlashBlocks
+	// navigation-list stretches its <nav>), which fills this scrollport and
+	// wraps instead of overflowing. Pin such known full-width blocks to their
+	// natural content width so the row scrolls. Keeps the block self-sufficient
+	// — works wherever it's inserted, no theme glue required.
+	> .wp-block-flashblocks-navigation-list {
+		width: max-content;
+		max-width: none;
+	}
+
+	// Edge-fade affordance, toggled by view.js. The core scroll still works if
+	// the script never runs — this is purely a "there's more this way" hint.
+	&[data-scrollable] {
+		--fb-fade-size: clamp(1.25rem, 4vw, 2.5rem);
+		--fb-fade-start: 0px;
+		--fb-fade-end: 0px;
+
+		$fade: linear-gradient(
+			to right,
+			transparent 0,
+			#000 var(--fb-fade-start),
+			#000 calc(100% - var(--fb-fade-end)),
+			transparent 100%
+		);
+		-webkit-mask-image: $fade;
+		mask-image: $fade;
+
+		&:not([data-at-start]) {
+			--fb-fade-start: var(--fb-fade-size);
+		}
+
+		&:not([data-at-end]) {
+			--fb-fade-end: var(--fb-fade-size);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		scroll-behavior: auto;
+	}
+}
