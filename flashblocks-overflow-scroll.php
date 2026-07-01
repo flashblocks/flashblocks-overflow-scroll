@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       Flashblocks Overflow Scroll
  * Description:       A container block that scrolls its content horizontally when it overflows.
- * Version:           1.0.2
+ * Version:           1.0.3
  * Requires at least: 6.8
  * Requires PHP:      7.4
  * Author:            Fleenor Security
