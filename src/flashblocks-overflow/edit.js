@@ -3,16 +3,47 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
  */
-import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import {
+	useBlockProps,
+	useInnerBlocksProps,
+	InspectorControls,
+} from '@wordpress/block-editor';
+import { PanelBody, ToggleControl } from '@wordpress/components';
 
 import './editor.scss';
 
-export default function Edit() {
-	const blockProps = useBlockProps();
+export default function Edit( { attributes, setAttributes } ) {
+	const { edgeFade } = attributes;
+
+	const blockProps = useBlockProps( {
+		// Opt-out class: fade is on by default, so existing content is unaffected.
+		className: edgeFade ? undefined : 'is-fade-off',
+	} );
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {
 		// Lay the inner blocks out and insert them horizontally, like a Row.
 		orientation: 'horizontal',
 	} );
 
-	return <div { ...innerBlocksProps } />;
+	return (
+		<>
+			<InspectorControls>
+				<PanelBody title={ __( 'Overflow', 'flashblocks' ) }>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Edge fade', 'flashblocks' ) }
+						help={ __(
+							'Fade the left/right edges to hint there is more to scroll.',
+							'flashblocks'
+						) }
+						checked={ edgeFade }
+						onChange={ ( value ) =>
+							setAttributes( { edgeFade: value } )
+						}
+					/>
+				</PanelBody>
+			</InspectorControls>
+			<div { ...innerBlocksProps } />
+		</>
+	);
 }

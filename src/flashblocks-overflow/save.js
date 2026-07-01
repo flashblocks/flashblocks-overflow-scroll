@@ -5,8 +5,12 @@
  */
 import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 
-export default function save() {
-	const blockProps = useBlockProps.save();
+export default function save( { attributes } ) {
+	const { edgeFade } = attributes;
+
+	const blockProps = useBlockProps.save( {
+		className: edgeFade ? undefined : 'is-fade-off',
+	} );
 	const innerBlocksProps = useInnerBlocksProps.save( blockProps );
 
 	return <div { ...innerBlocksProps } />;

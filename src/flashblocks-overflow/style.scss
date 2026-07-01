@@ -55,7 +55,8 @@
 
 	// Edge-fade affordance, toggled by view.js. The core scroll still works if
 	// the script never runs — this is purely a "there's more this way" hint.
-	&[data-scrollable] {
+	// Turned off per-instance via the "Edge fade" control (adds .is-fade-off).
+	&[data-scrollable]:not(.is-fade-off) {
 		--fb-fade-size: clamp(1.25rem, 4vw, 2.5rem);
 		--fb-fade-start: 0px;
 		--fb-fade-end: 0px;
