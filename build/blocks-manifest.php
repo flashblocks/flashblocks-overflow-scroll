@@ -5,7 +5,7 @@ return array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
 		'name' => 'flashblocks/overflow',
-		'version' => '1.0.3',
+		'version' => '1.0.4',
 		'title' => 'Overflow',
 		'category' => 'layout',
 		'icon' => 'leftright',
@@ -24,6 +24,10 @@ return array(
 			'edgeFade' => array(
 				'type' => 'boolean',
 				'default' => true
+			),
+			'scrollToSelector' => array(
+				'type' => 'string',
+				'default' => ''
 			)
 		),
 		'supports' => array(

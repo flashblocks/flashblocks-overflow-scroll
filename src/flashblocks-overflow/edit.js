@@ -9,12 +9,12 @@ import {
 	useInnerBlocksProps,
 	InspectorControls,
 } from '@wordpress/block-editor';
-import { PanelBody, ToggleControl } from '@wordpress/components';
+import { PanelBody, ToggleControl, TextControl } from '@wordpress/components';
 
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { edgeFade } = attributes;
+	const { edgeFade, scrollToSelector } = attributes;
 
 	const blockProps = useBlockProps( {
 		// Opt-out class: fade is on by default, so existing content is unaffected.
@@ -39,6 +39,18 @@ export default function Edit( { attributes, setAttributes } ) {
 						checked={ edgeFade }
 						onChange={ ( value ) =>
 							setAttributes( { edgeFade: value } )
+						}
+					/>
+					<TextControl
+						__nextHasNoMarginBottom
+						label={ __( 'Center on load (selector)', 'flashblocks' ) }
+						help={ __(
+							'CSS selector to scroll into the center when the page loads, e.g. .current-menu-item. Leave blank to disable.',
+							'flashblocks'
+						) }
+						value={ scrollToSelector }
+						onChange={ ( value ) =>
+							setAttributes( { scrollToSelector: value } )
 						}
 					/>
 				</PanelBody>
